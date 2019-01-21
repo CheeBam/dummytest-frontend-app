@@ -1,0 +1,64 @@
+.App {
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: left;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+}
+
+.top, .bottom {
+  text-align: left;
+}
+
+.left, .right {
+  padding-top: 4px;
+}
+
+.table {
+  border: 1px #60A9E1 solid;
+  text-align: center;
+}
+
+.cell {
+  background-color: #60A9E1;
+  color: #fff;
+  font-size: 0.7em;
+}
+
+.button {
+  margin: 0;
+  width: 70px;
+  height: 70px;
+  color: #fff;
+  font-size: large;
+  cursor: pointer;
+  position: relative;
+  transition: top 0.2s linear, left 0.2s linear, background-color 2s;
+}
+
+.add-button  {
+  background-color: #E9A73A;
+}
+
+.add-button:hover {
+  background-color: #EFC165;
+  transition: background-color 2s;
+}
+
+.remove-button {
+  background-color: #A42015;
+}
+
+.remove-button:hover {
+  background-color: #BC544E;
+  transition: background-color 2s;
+}
+
