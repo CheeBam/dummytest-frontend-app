@@ -2,11 +2,28 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 
 import { BUTTON_MARGIN } from '../utils/constants';
-import Table from '../helpers/Table';
+import helper from '../helpers/helper';
 import Button from './Button';
 import Cell from './Cell';
 
 export default class Cubes extends PureComponent {
+
+    constructor(props) {
+        super(props);
+        const matrix = [];
+        const {initialHeight, initialWidth, cellSize} = this.props;
+        for (let row = 0; row < initialHeight; row++) {
+            matrix.push(helper.createRow(row, initialWidth));
+        }
+
+        this.state = {
+            matrix,
+            width: initialWidth,
+            height: initialHeight,
+            cellSize,
+            cellSizeWithMargin: cellSize + BUTTON_MARGIN,
+        }
+    }
 
     static propTypes = {
         initialWidth: PropTypes.number,
@@ -33,34 +50,6 @@ export default class Cubes extends PureComponent {
         visibilityRow: 'hidden',
     };
 
-    componentDidMount() {
-        this.init();
-    };
-
-    componentDidUpdate(props) {
-        const { initialWidth, initialHeight, cellSize } = this.props;
-
-        if (props.initialWidth !== initialWidth || props.initialHeight !== initialHeight || props.cellSize !== cellSize) {
-            this.init();
-        }
-    }
-
-    init() {
-        const matrix = [];
-        const {initialHeight, initialWidth, cellSize} = this.props;
-        for (let row = 0; row < initialHeight; row++) {
-            matrix.push(Table.createRow(row, initialWidth));
-        }
-
-        this.setState({
-            matrix,
-            width: initialWidth,
-            height: initialHeight,
-            cellSize,
-            cellSizeWithMargin: cellSize + BUTTON_MARGIN,
-        });
-    };
-
     buildTable() {
         const {matrix} = this.state;
         const {cellSize} = this.props;
@@ -78,7 +67,7 @@ export default class Cubes extends PureComponent {
 
     addRow = () => {
         const {matrix, height} = this.state;
-        matrix.push(Table.createRow(height, matrix[0].cols.length));
+        matrix.push(helper.createRow(height, matrix[0].cols.length));
 
         this.setState({
             matrix,
@@ -89,7 +78,7 @@ export default class Cubes extends PureComponent {
     addColumn = () => {
         const {matrix, width} = this.state;
         const newMatrix = matrix.map(item => {
-            item.cols.push(Table.createColumn(width));
+            item.cols.push(helper.createColumn(width));
             return item;
         });
 
@@ -107,7 +96,8 @@ export default class Cubes extends PureComponent {
 
             this.setState({
                 matrix: newMatrix,
-                visibilityRow: Table.getVisibility(newMatrix, 'row', 'visible'),
+                visibilityCol: 'hidden',
+                visibilityRow: 'hidden',
             });
         }
     };
@@ -123,7 +113,8 @@ export default class Cubes extends PureComponent {
 
             this.setState({
                 matrix: newMatrix,
-                visibilityCol: Table.getVisibility(newMatrix, 'col', 'visible'),
+                visibilityCol: 'hidden',
+                visibilityRow: 'hidden',
             });
         }
     };
@@ -137,8 +128,8 @@ export default class Cubes extends PureComponent {
                 activeCol,
                 rmButtonLeft: activeCol * cellSizeWithMargin,
                 rmButtonTop: activeRow * cellSizeWithMargin,
-                visibilityRow: Table.getVisibility(matrix, 'row', 'visible'),
-                visibilityCol: Table.getVisibility(matrix, 'col', 'visible'),
+                visibilityRow: helper.getVisibility(matrix, 'row', 'visible'),
+                visibilityCol: helper.getVisibility(matrix, 'col', 'visible'),
             });
         };
     };
@@ -161,7 +152,6 @@ export default class Cubes extends PureComponent {
                 <div className="top" style={{marginLeft: cellSizeWithMargin}}>
                     <Button style={{left: rmButtonLeft, visibility: visibilityCol, width: cellSize, height: cellSize}}
                             onClick={this.removeColumn}
-                            onMouseLeave={this.onMouseLeave}
                             type="remove"
                             title="-"/>
                 </div>
@@ -169,7 +159,6 @@ export default class Cubes extends PureComponent {
                     <div className="left">
                         <Button style={{top: rmButtonTop, visibility: visibilityRow, width: cellSize, height: cellSize}}
                                 onClick={this.removeRow}
-                                onMouseLeave={this.onMouseLeave}
                                 type="remove"
                                 title="-"/>
                     </div>
