@@ -152,6 +152,7 @@ export default class Cubes extends PureComponent {
                 <div className="top" style={{marginLeft: cellSizeWithMargin}}>
                     <Button style={{left: rmButtonLeft, visibility: visibilityCol, width: cellSize, height: cellSize}}
                             onClick={this.removeColumn}
+                            onMouseLeave={this.onMouseLeave}
                             type="remove"
                             title="-"/>
                 </div>
@@ -159,6 +160,7 @@ export default class Cubes extends PureComponent {
                     <div className="left">
                         <Button style={{top: rmButtonTop, visibility: visibilityRow, width: cellSize, height: cellSize}}
                                 onClick={this.removeRow}
+                                onMouseLeave={this.onMouseLeave}
                                 type="remove"
                                 title="-"/>
                     </div>
