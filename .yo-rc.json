@@ -1,0 +1,9 @@
+{
+  "generator-agonb": {
+    "repository_url": "https://github.com/CheeBam/dummytest-frontend-app",
+    "project_destination_path": "dummytest-frontend-app",
+    "application_name": "dummytestFrontEnd",
+    "project_technology": "frontend-deployment",
+    "api_url": "google.com"
+  }
+}
